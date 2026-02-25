@@ -1,0 +1,719 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Bodega da Terra</title>
+
+<style>
+body{
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif;
+    margin:0;
+    background:#f7f7f7;
+}
+
+.header{
+    background:#ea1d2c;
+    color:white;
+    padding:20px;
+    text-align:center;
+}
+.header h1{
+    font-size:26px;
+    margin:0;
+    line-height:1.2;
+    font-weight:600;
+}
+.header small{
+    display:block;
+    margin-top:8px;
+    font-size:14px;
+    opacity:0.9;
+}
+
+.container{
+    padding:15px;
+    padding-bottom:90px;
+}
+
+.card{
+    background:white;
+    border-radius:14px;
+    padding:18px;
+    margin-bottom:15px;
+    box-shadow:0 4px 12px rgba(0,0,0,0.06);
+}
+
+button{
+    width:100%;
+    padding:16px;
+    border:none;
+    border-radius:12px;
+    font-size:16px;
+    cursor:pointer;
+}
+
+.primary{
+    background:#ea1d2c;
+    color:white;
+}
+
+.secondary{
+    background:#2e7d32;
+    color:white;
+}
+
+.option{
+    padding:10px 0;
+    font-size:15px;
+}
+
+.section{ display:none; }
+.active{ display:block; }
+
+.footer{
+    position:fixed;
+    bottom:0;
+    width:100%;
+    background:white;
+    padding:10px;
+    box-shadow:0 -3px 12px rgba(0,0,0,0.1);
+    box-sizing:border-box;
+    display:flex;
+    gap:10px;
+}
+
+.footer button{
+    flex:1;
+}
+
+/* Badge do carrinho */
+.badge{
+    background:#fff;
+    color:#ea1d2c;
+    border-radius:50%;
+    padding:2px 7px;
+    font-size:13px;
+    font-weight:bold;
+    margin-left:6px;
+}
+
+/* Popup */
+.popup{
+    position:fixed;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    background:rgba(0,0,0,0.6);
+    display:none;
+    justify-content:center;
+    align-items:center;
+    z-index:100;
+}
+
+.popup-content{
+    background:white;
+    width:92%;
+    max-width:420px;
+    padding:20px;
+    border-radius:14px;
+}
+
+.popup-content label{
+    display:block;
+    text-align:left;
+    font-weight:600;
+    margin-top:10px;
+    margin-bottom:5px;
+    font-size:14px;
+}
+.popup-content input, .popup-content textarea{
+    width:100%;
+    padding:12px;
+    margin-bottom:10px;
+    border:1px solid #ddd;
+    border-radius:8px;
+    font-size:14px;
+    box-sizing:border-box;
+}
+.popup-content textarea{
+    resize:vertical;
+}
+.radio-group{
+    display:flex;
+    gap:20px;
+    margin-bottom:15px;
+}
+.radio-group label{
+    display:flex;
+    align-items:center;
+    gap:5px;
+    font-weight:normal;
+    margin:0;
+}
+
+/* Carrinho */
+.cart-item{
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-start;
+    padding:12px 0;
+    border-bottom:1px solid #eee;
+}
+
+.cart-item:last-child{
+    border-bottom:none;
+}
+
+.cart-item-info{
+    flex:1;
+}
+
+.cart-item-info h4{
+    margin:0 0 4px 0;
+    font-size:15px;
+}
+
+.cart-item-info p{
+    margin:0;
+    font-size:13px;
+    color:#666;
+}
+
+.cart-item-price{
+    font-weight:bold;
+    color:#ea1d2c;
+    margin-left:10px;
+    white-space:nowrap;
+}
+
+.btn-remove{
+    background:none;
+    border:none;
+    color:#999;
+    font-size:20px;
+    cursor:pointer;
+    padding:0 0 0 8px;
+    width:auto;
+    line-height:1;
+}
+
+.btn-remove:hover{
+    color:#ea1d2c;
+}
+
+.cart-total{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:14px 0 0;
+    margin-top:10px;
+    border-top:2px solid #ea1d2c;
+    font-size:18px;
+    font-weight:bold;
+}
+
+.cart-total span:last-child{
+    color:#ea1d2c;
+}
+
+.cart-empty{
+    text-align:center;
+    color:#999;
+    padding:30px 0;
+    font-size:15px;
+}
+
+.btn-row{
+    display:flex;
+    gap:10px;
+    margin-top:12px;
+}
+
+.btn-row button{
+    flex:1;
+}
+
+.btn-add{
+    background:#2e7d32;
+    color:white;
+    margin-top:12px;
+}
+
+.btn-clear{
+    background:#f5f5f5;
+    color:#333;
+}
+
+.cart-count-footer{
+    font-size:13px;
+    opacity:0.9;
+}
+</style>
+</head>
+
+<body>
+
+<div class="header">
+    <h1>RESTAURANTE<br>BODEGA<br>DA TERRA</h1>
+    <small>Delivery 10h30 às 13h &bull; Sem taxa</small>
+</div>
+
+<div class="container">
+
+<div id="home" class="section active">
+    <div class="card">
+        <h3>🍱 Quentinha P</h3>
+        <p>1 proteína + até 4 acompanhamentos</p>
+        <button class="primary" onclick="abrirQuentinha('P')">R$ 20</button>
+    </div>
+
+    <div class="card">
+        <h3>🍱 Quentinha G</h3>
+        <p>Até 2 proteínas + até 4 acompanhamentos</p>
+        <button class="primary" onclick="abrirQuentinha('G')">R$ 25</button>
+    </div>
+
+    <div class="card">
+        <h3>🍽️ Executivo</h3>
+        <p>1 proteína + até 3 acompanhamentos</p>
+        <button class="primary" onclick="mostrar('executivo')">R$ 30</button>
+    </div>
+
+    <div class="card">
+        <h3>🥤 Bebidas</h3>
+        <p>Refrigerantes – Coca-cola e Guaraná</p>
+        <button class="primary" onclick="abrirBebidas()">Ver Opções</button>
+    </div>
+</div>
+
+<div id="quentinha" class="section">
+    <div class="card">
+        <button onclick="voltarHome()" style="margin-bottom:15px;">⬅ Voltar</button><h3 id="tituloQ"></h3>
+
+        <h4>Proteínas</h4>
+        <div class="option"><label><input type="checkbox" class="proteinaQ"> Bisteca</label></div>
+        <div class="option"><label><input type="checkbox" class="proteinaQ"> Peito de frango</label></div>
+        <div class="option"><label><input type="checkbox" class="proteinaQ"> Linguiça de frango</label></div>
+
+        <h4>Acompanhamentos (máx 4)</h4>
+        <div class="option"><label><input type="checkbox" class="acompQ"> Arroz</label></div>
+        <div class="option"><label><input type="checkbox" class="acompQ"> Feijão preto</label></div>
+        <div class="option"><label><input type="checkbox" class="acompQ"> Feijão marrom</label></div>
+        <div class="option"><label><input type="checkbox" class="acompQ"> Macarrão alho e óleo</label></div>
+        <div class="option"><label><input type="checkbox" class="acompQ"> Macaxeira cozida</label></div>
+        <div class="option"><label><input type="checkbox" class="acompQ"> Legumes cozidos</label></div>
+        <h4>Extras gratuitos</h4>
+        <div class="option"><label><input type="checkbox" class="extraQ"> Farofa (grátis)</label></div>
+        <div class="option"><label><input type="checkbox" class="extraQ"> Vinagrete (grátis)</label></div>
+
+        <button class="btn-add" onclick="adicionarQuentinha()">Adicionar ao Carrinho</button>
+    </div>
+</div>
+
+<div id="executivo" class="section">
+    <div class="card">
+        <button onclick="voltarHome()" style="margin-bottom:15px;">⬅ Voltar</button><h3>Executivo</h3>
+
+        <h4>Proteína (1)</h4>
+        <div class="option"><label><input type="radio" name="proteinaE"> Bisteca</label></div>
+        <div class="option"><label><input type="radio" name="proteinaE"> Peixe grelhado</label></div>
+        <div class="option"><label><input type="radio" name="proteinaE"> Paçoca de carne de sol</label></div>
+        <div class="option"><label><input type="radio" name="proteinaE"> Peito de frango</label></div>
+
+        <h4>Acompanhamentos (máx 3)</h4>
+        <div class="option"><label><input type="checkbox" class="acompE"> Arroz branco</label></div>
+        <div class="option"><label><input type="checkbox" class="acompE"> Arroz de leite</label></div>
+        <div class="option"><label><input type="checkbox" class="acompE"> Feijão preto</label></div>
+        <div class="option"><label><input type="checkbox" class="acompE"> Feijão carioca</label></div>
+        <div class="option"><label><input type="checkbox" class="acompE"> Feijão verde com queijo coalho</label></div>
+        <div class="option"><label><input type="checkbox" class="acompE"> Macaxeira cozida</label></div>
+        <div class="option"><label><input type="checkbox" class="acompE"> Macaxeira frita</label></div>
+        <div class="option"><label><input type="checkbox" class="acompE"> Batata frita</label></div>
+
+        <h4>Extras gratuitos</h4>
+        <div class="option"><label><input type="checkbox" class="extraE"> Farofa (grátis)</label></div>
+        <div class="option"><label><input type="checkbox" class="extraE"> Vinagrete (grátis)</label></div>
+
+        <button class="btn-add" onclick="adicionarExecutivo()">Adicionar ao Carrinho</button>
+    </div>
+</div>
+
+<div id="bebidas" class="section">
+    <div class="card">
+        <button onclick="voltarHome()" style="margin-bottom:15px;">⬅ Voltar</button><h3>🥤 Bebidas</h3>
+
+        <h4>Coca-cola</h4>
+        <div class="option"><label><input type="checkbox" class="bebidaB" data-preco="15"> Coca-cola 1L – R$ 15</label></div>
+        <div class="option"><label><input type="checkbox" class="bebidaB" data-preco="15"> Coca-cola Zero 1L – R$ 15</label></div>
+        <div class="option"><label><input type="checkbox" class="bebidaB" data-preco="8"> Coca-cola lata – R$ 8</label></div>
+        <div class="option"><label><input type="checkbox" class="bebidaB" data-preco="8"> Coca-cola Zero lata – R$ 8</label></div>
+
+        <h4>Guaraná</h4>
+        <div class="option"><label><input type="checkbox" class="bebidaB" data-preco="15"> Guaraná 1L – R$ 15</label></div>
+        <div class="option"><label><input type="checkbox" class="bebidaB" data-preco="15"> Guaraná Zero 1L – R$ 15</label></div>
+        <div class="option"><label><input type="checkbox" class="bebidaB" data-preco="8"> Guaraná lata – R$ 8</label></div>
+        <div class="option"><label><input type="checkbox" class="bebidaB" data-preco="8"> Guaraná Zero lata – R$ 8</label></div>
+
+        <button class="btn-add" onclick="adicionarBebidas()">Adicionar ao Carrinho</button>
+    </div>
+</div>
+
+<!-- Seção do Carrinho -->
+<div id="carrinho" class="section">
+    <div class="card">
+        <button onclick="voltarHome()" style="margin-bottom:15px;">⬅ Voltar ao Cardápio</button>
+        <h3>🛒 Carrinho</h3>
+        <div id="listaCarrinho"></div>
+    </div>
+</div>
+
+</div>
+
+<div class="footer">
+    <button class="primary" onclick="mostrar('carrinho'); renderizarCarrinho();" id="btnCarrinho">
+        🛒 Carrinho <span class="badge" id="badgeCount">0</span>
+    </button>
+    <button class="secondary" onclick="finalizarPedido()" id="btnFinalizar" style="display:none;">
+        Enviar Pedido
+    </button>
+</div>
+
+<!-- POPUP COM DADOS DO CLIENTE -->
+<div class="popup" id="popup">
+    <div class="popup-content">
+        <h3>Finalizar Pedido</h3>
+        
+        <label>Nome completo</label>
+        <input type="text" id="nomeCliente" placeholder="Digite seu nome" required>
+
+        <label>Endereço de entrega</label>
+        <textarea id="enderecoCliente" placeholder="Rua, número, complemento, bairro" rows="2" required></textarea>
+
+        <label>Forma de pagamento</label>
+        <div class="radio-group">
+            <label><input type="radio" name="pagamento" value="PIX" checked> PIX</label>
+            <label><input type="radio" name="pagamento" value="Cartão"> Cartão</label>
+        </div>
+
+        <label>Resumo do pedido</label>
+        <textarea id="resumoPedido" readonly style="height:120px;"></textarea>
+
+        <button class="primary" onclick="enviarWhatsApp()">Enviar pelo WhatsApp</button>
+        <button onclick="fecharPopup()" style="margin-top:8px;">Fechar</button>
+    </div>
+</div>
+
+<script>
+
+let tipoAtual = "";
+let carrinho = [];
+
+function mostrar(id){
+    document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+}
+
+function voltarHome(){
+    mostrar('home');
+}
+
+function abrirQuentinha(tipo){
+    tipoAtual = tipo;
+    limparSelecaoQuentinha();
+    mostrar('quentinha');
+    document.getElementById("tituloQ").innerText =
+    tipo==="P" ? "Quentinha P – R$20" : "Quentinha G – R$25";
+}
+
+/* Limpar seleções ao abrir formulário */
+function limparSelecaoQuentinha(){
+    document.querySelectorAll(".proteinaQ").forEach(c => c.checked = false);
+    document.querySelectorAll(".acompQ").forEach(c => c.checked = false);
+    document.querySelectorAll(".extraQ").forEach(c => c.checked = false);
+}
+
+function limparSelecaoExecutivo(){
+    document.querySelectorAll("input[name='proteinaE']").forEach(c => c.checked = false);
+    document.querySelectorAll(".acompE").forEach(c => c.checked = false);
+    document.querySelectorAll(".extraE").forEach(c => c.checked = false);
+}
+
+/* LIMITES */
+
+document.querySelectorAll(".proteinaQ").forEach(box=>{
+    box.addEventListener("change",function(){
+        let max = tipoAtual==="P" ? 1 : 2;
+        if(document.querySelectorAll(".proteinaQ:checked").length>max){
+            alert("Máximo permitido: " + max + " proteína(s).");
+            this.checked=false;
+        }
+    });
+});
+
+document.querySelectorAll(".acompQ").forEach(box=>{
+    box.addEventListener("change",function(){
+        if(document.querySelectorAll(".acompQ:checked").length>4){
+            alert("Máximo 4 acompanhamentos");
+            this.checked=false;
+        }
+    });
+});
+
+document.querySelectorAll(".acompE").forEach(box=>{
+    box.addEventListener("change",function(){
+        if(document.querySelectorAll(".acompE:checked").length>3){
+            alert("Máximo 3 acompanhamentos");
+            this.checked=false;
+        }
+    });
+});
+
+/* CARRINHO - Adicionar Quentinha */
+function adicionarQuentinha(){
+    let proteinas = [...document.querySelectorAll(".proteinaQ:checked")].map(p=>p.parentElement.innerText.trim());
+    let acomp = [...document.querySelectorAll(".acompQ:checked")].map(a=>a.parentElement.innerText.trim());
+    let extras = [...document.querySelectorAll(".extraQ:checked")].map(e=>e.parentElement.innerText.replace(" (grátis)","").trim());
+
+    if(proteinas.length === 0){
+        alert("Selecione pelo menos 1 proteína.");
+        return;
+    }
+
+    let nome = tipoAtual === "P" ? "Quentinha P" : "Quentinha G";
+    let preco = tipoAtual === "P" ? 20 : 25;
+
+    carrinho.push({
+        tipo: nome,
+        preco: preco,
+        proteinas: proteinas,
+        acompanhamentos: acomp,
+        extras: extras
+    });
+
+    atualizarBadge();
+    alert(nome + " adicionada ao carrinho!");
+    limparSelecaoQuentinha();
+    voltarHome();
+}
+
+/* CARRINHO - Adicionar Executivo */
+function adicionarExecutivo(){
+    let prot = document.querySelector("input[name='proteinaE']:checked");
+    let acomp = [...document.querySelectorAll(".acompE:checked")].map(a=>a.parentElement.innerText.trim());
+    let extras = [...document.querySelectorAll(".extraE:checked")].map(e=>e.parentElement.innerText.replace(" (grátis)","").trim());
+
+    if(!prot){
+        alert("Selecione 1 proteína.");
+        return;
+    }
+
+    carrinho.push({
+        tipo: "Executivo",
+        preco: 30,
+        proteinas: [prot.parentElement.innerText.trim()],
+        acompanhamentos: acomp,
+        extras: extras
+    });
+
+    atualizarBadge();
+    alert("Executivo adicionado ao carrinho!");
+    limparSelecaoExecutivo();
+    voltarHome();
+}
+
+/* Bebidas */
+function abrirBebidas(){
+    limparSelecaoBebidas();
+    mostrar('bebidas');
+}
+
+function limparSelecaoBebidas(){
+    document.querySelectorAll(".bebidaB").forEach(c => c.checked = false);
+}
+
+function adicionarBebidas(){
+    let selecionadas = [...document.querySelectorAll(".bebidaB:checked")];
+
+    if(selecionadas.length === 0){
+        alert("Selecione pelo menos 1 bebida.");
+        return;
+    }
+
+    let itens = selecionadas.map(function(cb){
+        let nome = cb.parentElement.innerText.trim();
+        let preco = parseInt(cb.getAttribute("data-preco"));
+        return {nome: nome, preco: preco};
+    });
+
+    let totalBebidas = itens.reduce(function(soma, b){ return soma + b.preco; }, 0);
+
+    carrinho.push({
+        tipo: "Bebidas",
+        preco: totalBebidas,
+        itens: itens,
+        proteinas: [],
+        acompanhamentos: [],
+        extras: []
+    });
+
+    atualizarBadge();
+    alert("Bebida(s) adicionada(s) ao carrinho!");
+    limparSelecaoBebidas();
+    voltarHome();
+}
+
+/* Atualizar badge e botão */
+function atualizarBadge(){
+    let count = carrinho.length;
+    document.getElementById("badgeCount").innerText = count;
+    document.getElementById("btnFinalizar").style.display = count > 0 ? "block" : "none";
+}
+
+/* Renderizar lista do carrinho */
+function renderizarCarrinho(){
+    let container = document.getElementById("listaCarrinho");
+
+    if(carrinho.length === 0){
+        container.innerHTML = '<div class="cart-empty">Seu carrinho está vazio.<br>Adicione marmitas do cardápio!</div>';
+        return;
+    }
+
+    let html = '';
+
+    carrinho.forEach(function(item, index){
+        let detalhes = '';
+        if(item.tipo === "Bebidas"){
+            detalhes = item.itens.map(function(b){ return b.nome; }).join(', ');
+        } else {
+            if(item.proteinas.length > 0) detalhes += 'Proteína(s): ' + item.proteinas.join(', ');
+            if(item.acompanhamentos.length > 0) detalhes += '<br>Acomp.: ' + item.acompanhamentos.join(', ');
+            if(item.extras.length > 0) detalhes += '<br>Extras: ' + item.extras.join(', ');
+        }
+
+        let emoji = item.tipo === "Bebidas" ? "🥤" : (item.tipo === "Executivo" ? "🍽️" : "🍱");
+
+        html += '<div class="cart-item">' +
+            '<div class="cart-item-info">' +
+                '<h4>' + emoji + ' ' + item.tipo + '</h4>' +
+                '<p>' + detalhes + '</p>' +
+            '</div>' +
+            '<span class="cart-item-price">R$ ' + item.preco + '</span>' +
+            '<button class="btn-remove" onclick="removerItem(' + index + ')" title="Remover">&times;</button>' +
+        '</div>';
+    });
+
+    let total = carrinho.reduce(function(soma, item){ return soma + item.preco; }, 0);
+
+    html += '<div class="cart-total">' +
+        '<span>Total</span>' +
+        '<span>R$ ' + total + '</span>' +
+    '</div>';
+
+    html += '<div class="btn-row">' +
+        '<button class="btn-clear" onclick="limparCarrinho()">Limpar Carrinho</button>' +
+        '<button class="secondary" onclick="finalizarPedido()">Enviar Pedido</button>' +
+    '</div>';
+
+    container.innerHTML = html;
+}
+
+/* Remover item do carrinho */
+function removerItem(index){
+    carrinho.splice(index, 1);
+    atualizarBadge();
+    renderizarCarrinho();
+}
+
+/* Limpar carrinho */
+function limparCarrinho(){
+    if(confirm("Deseja limpar todo o carrinho?")){
+        carrinho = [];
+        atualizarBadge();
+        renderizarCarrinho();
+    }
+}
+
+/* GERAR PEDIDO (apenas itens, sem cabeçalho) */
+function gerarTextoPedido(){
+    let texto = "";
+    let total = 0;
+
+    carrinho.forEach(function(item, index){
+        let emoji = item.tipo === "Bebidas" ? "🥤" : (item.tipo === "Executivo" ? "🍽️" : "🍱");
+        texto += emoji + " *" + item.tipo + "* (R$ " + item.preco + ")\n";
+        if(item.tipo === "Bebidas"){
+            item.itens.forEach(function(b){
+                texto += "  - " + b.nome + "\n";
+            });
+        } else {
+            texto += "Proteína(s): " + item.proteinas.join(", ") + "\n";
+            if(item.acompanhamentos.length > 0){
+                texto += "Acompanhamentos: " + item.acompanhamentos.join(", ") + "\n";
+            }
+            if(item.extras.length > 0){
+                texto += "Extras gratuitos: " + item.extras.join(", ") + "\n";
+            }
+        }
+        texto += "\n";
+        total += item.preco;
+    });
+
+    texto += "💰 *Total: R$ " + total + "*\n";
+    texto += "📦 *Itens: " + carrinho.length + " item(ns)*";
+
+    return texto;
+}
+
+/* Abrir popup de finalização com resumo do pedido */
+function finalizarPedido(){
+    if(carrinho.length === 0){
+        alert("Seu carrinho está vazio! Adicione marmitas antes de finalizar.");
+        return;
+    }
+
+    // Limpar campos do cliente
+    document.getElementById("nomeCliente").value = "";
+    document.getElementById("enderecoCliente").value = "";
+    // O radio PIX já fica marcado por padrão
+
+    // Preencher resumo do pedido
+    document.getElementById("resumoPedido").value = gerarTextoPedido();
+
+    // Exibir popup
+    document.getElementById("popup").style.display = "flex";
+}
+
+/* Enviar WhatsApp com dados do cliente + pedido */
+function enviarWhatsApp(){
+    let nome = document.getElementById("nomeCliente").value.trim();
+    let endereco = document.getElementById("enderecoCliente").value.trim();
+    let pagamento = document.querySelector("input[name='pagamento']:checked").value;
+
+    if(!nome || !endereco){
+        alert("Por favor, preencha seu nome e endereço.");
+        return;
+    }
+
+    let textoPedido = document.getElementById("resumoPedido").value; // já vem sem cabeçalho
+
+    let textoCompleto = `🍽️ *Pedido - Bodega da Terra*\n\n`;
+    textoCompleto += `*Cliente:* ${nome}\n`;
+    textoCompleto += `*Endereço:* ${endereco}\n`;
+    textoCompleto += `*Pagamento:* ${pagamento}\n\n`;
+    textoCompleto += textoPedido;
+
+    let numero = "5584994587752";
+    let url = "https://wa.me/" + numero + "?text=" + encodeURIComponent(textoCompleto);
+    window.location.href = url;
+}
+
+function fecharPopup(){
+    document.getElementById("popup").style.display = "none";
+}
+
+</script>
+
+</body>
+</html>
