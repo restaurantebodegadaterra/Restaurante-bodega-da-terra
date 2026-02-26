@@ -4,14 +4,13 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 <title>Bodega da Terra</title>
-
 <style>
+/* Seu CSS continua igual, mantive o mesmo do último exemplo */
 body{
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif;
     margin:0;
     background:#f7f7f7;
 }
-
 .header{
     background:#ea1d2c;
     color:white;
@@ -30,12 +29,10 @@ body{
     font-size:14px;
     opacity:0.9;
 }
-
 .container{
     padding:15px;
     padding-bottom:90px;
 }
-
 .card{
     background:white;
     border-radius:14px;
@@ -43,7 +40,6 @@ body{
     margin-bottom:15px;
     box-shadow:0 4px 12px rgba(0,0,0,0.06);
 }
-
 button{
     width:100%;
     padding:16px;
@@ -52,25 +48,20 @@ button{
     font-size:16px;
     cursor:pointer;
 }
-
 .primary{
     background:#ea1d2c;
     color:white;
 }
-
 .secondary{
     background:#2e7d32;
     color:white;
 }
-
 .option{
     padding:10px 0;
     font-size:15px;
 }
-
 .section{ display:none; }
 .active{ display:block; }
-
 .footer{
     position:fixed;
     bottom:0;
@@ -81,13 +72,31 @@ button{
     box-sizing:border-box;
     display:flex;
     gap:10px;
+    align-items:center;
+    justify-content:space-between;
 }
-
+.footer-left{
+    display:flex;
+    gap:10px;
+}
 .footer button{
-    flex:1;
+    flex:0 1 auto;
+    padding:12px 16px;
 }
-
-/* Badge do carrinho */
+.btn-admin-footer{
+    background:none;
+    border:none;
+    color:#ccc;
+    font-size:12px;
+    padding:4px 8px;
+    cursor:pointer;
+    width:auto;
+    border-radius:4px;
+}
+.btn-admin-footer:hover{
+    color:#999;
+    background:#f0f0f0;
+}
 .badge{
     background:#fff;
     color:#ea1d2c;
@@ -97,8 +106,6 @@ button{
     font-weight:bold;
     margin-left:6px;
 }
-
-/* Popup */
 .popup{
     position:fixed;
     top:0;
@@ -111,15 +118,15 @@ button{
     align-items:center;
     z-index:100;
 }
-
 .popup-content{
     background:white;
     width:92%;
     max-width:420px;
     padding:20px;
     border-radius:14px;
+    max-height:90vh;
+    overflow-y:auto;
 }
-
 .popup-content label{
     display:block;
     text-align:left;
@@ -128,7 +135,7 @@ button{
     margin-bottom:5px;
     font-size:14px;
 }
-.popup-content input, .popup-content textarea{
+.popup-content input, .popup-content textarea, .popup-content select{
     width:100%;
     padding:12px;
     margin-bottom:10px;
@@ -152,8 +159,64 @@ button{
     font-weight:normal;
     margin:0;
 }
-
-/* Carrinho */
+.admin-tabs{
+    display:flex;
+    flex-wrap:wrap;
+    gap:5px;
+    margin-bottom:15px;
+}
+.tab-btn{
+    flex:1;
+    padding:10px;
+    background:#f0f0f0;
+    border:none;
+    border-radius:8px;
+    cursor:pointer;
+}
+.tab-btn.active{
+    background:#ea1d2c;
+    color:white;
+}
+.admin-category{
+    display:none;
+}
+.admin-category.active{
+    display:block;
+}
+.admin-item{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:8px 0;
+    border-bottom:1px solid #eee;
+}
+.admin-item span{
+    font-size:15px;
+}
+.admin-item button{
+    width:auto;
+    padding:5px 10px;
+    background:#f44336;
+    color:white;
+    border-radius:6px;
+    font-size:13px;
+}
+.add-form{
+    display:flex;
+    gap:5px;
+    margin-top:15px;
+    flex-wrap:wrap;
+}
+.add-form input{
+    flex:2;
+    min-width:120px;
+}
+.add-form button{
+    flex:1;
+    padding:12px;
+    background:#2e7d32;
+    color:white;
+}
 .cart-item{
     display:flex;
     justify-content:space-between;
@@ -161,33 +224,27 @@ button{
     padding:12px 0;
     border-bottom:1px solid #eee;
 }
-
 .cart-item:last-child{
     border-bottom:none;
 }
-
 .cart-item-info{
     flex:1;
 }
-
 .cart-item-info h4{
     margin:0 0 4px 0;
     font-size:15px;
 }
-
 .cart-item-info p{
     margin:0;
     font-size:13px;
     color:#666;
 }
-
 .cart-item-price{
     font-weight:bold;
     color:#ea1d2c;
     margin-left:10px;
     white-space:nowrap;
 }
-
 .btn-remove{
     background:none;
     border:none;
@@ -198,11 +255,9 @@ button{
     width:auto;
     line-height:1;
 }
-
 .btn-remove:hover{
     color:#ea1d2c;
 }
-
 .cart-total{
     display:flex;
     justify-content:space-between;
@@ -213,51 +268,43 @@ button{
     font-size:18px;
     font-weight:bold;
 }
-
 .cart-total span:last-child{
     color:#ea1d2c;
 }
-
 .cart-empty{
     text-align:center;
     color:#999;
     padding:30px 0;
     font-size:15px;
 }
-
 .btn-row{
     display:flex;
     gap:10px;
     margin-top:12px;
 }
-
 .btn-row button{
     flex:1;
 }
-
 .btn-add{
     background:#2e7d32;
     color:white;
     margin-top:12px;
 }
-
 .btn-clear{
     background:#f5f5f5;
     color:#333;
 }
-
 .cart-count-footer{
     font-size:13px;
     opacity:0.9;
 }
 </style>
 </head>
-
 <body>
 
 <div class="header">
     <h1>RESTAURANTE<br>BODEGA<br>DA TERRA</h1>
-    <small>Delivery 10h30 às 13h &bull; Sem taxa</small>
+    <small>Delivery 11h às 13h &bull; Sem taxa</small>
 </div>
 
 <div class="container">
@@ -268,19 +315,16 @@ button{
         <p>1 proteína + até 4 acompanhamentos</p>
         <button class="primary" onclick="abrirQuentinha('P')">R$ 20</button>
     </div>
-
     <div class="card">
         <h3>🍱 Quentinha G</h3>
         <p>Até 2 proteínas + até 4 acompanhamentos</p>
         <button class="primary" onclick="abrirQuentinha('G')">R$ 25</button>
     </div>
-
     <div class="card">
         <h3>🍽️ Executivo</h3>
         <p>1 proteína + até 3 acompanhamentos</p>
         <button class="primary" onclick="mostrar('executivo')">R$ 30</button>
     </div>
-
     <div class="card">
         <h3>🥤 Bebidas</h3>
         <p>Refrigerantes – Coca-cola e Guaraná</p>
@@ -291,23 +335,12 @@ button{
 <div id="quentinha" class="section">
     <div class="card">
         <button onclick="voltarHome()" style="margin-bottom:15px;">⬅ Voltar</button><h3 id="tituloQ"></h3>
-
         <h4>Proteínas</h4>
-        <div class="option"><label><input type="checkbox" class="proteinaQ"> Bisteca</label></div>
-        <div class="option"><label><input type="checkbox" class="proteinaQ"> Peito de frango</label></div>
-        <div class="option"><label><input type="checkbox" class="proteinaQ"> Linguiça de frango</label></div>
-
+        <div id="proteinasQContainer" class="options-container"></div>
         <h4>Acompanhamentos (máx 4)</h4>
-        <div class="option"><label><input type="checkbox" class="acompQ"> Arroz</label></div>
-        <div class="option"><label><input type="checkbox" class="acompQ"> Feijão preto</label></div>
-        <div class="option"><label><input type="checkbox" class="acompQ"> Feijão marrom</label></div>
-        <div class="option"><label><input type="checkbox" class="acompQ"> Macarrão alho e óleo</label></div>
-        <div class="option"><label><input type="checkbox" class="acompQ"> Macaxeira cozida</label></div>
-        <div class="option"><label><input type="checkbox" class="acompQ"> Legumes cozidos</label></div>
+        <div id="acompQContainer" class="options-container"></div>
         <h4>Extras gratuitos</h4>
-        <div class="option"><label><input type="checkbox" class="extraQ"> Farofa (grátis)</label></div>
-        <div class="option"><label><input type="checkbox" class="extraQ"> Vinagrete (grátis)</label></div>
-
+        <div id="extrasQContainer" class="options-container"></div>
         <button class="btn-add" onclick="adicionarQuentinha()">Adicionar ao Carrinho</button>
     </div>
 </div>
@@ -315,27 +348,12 @@ button{
 <div id="executivo" class="section">
     <div class="card">
         <button onclick="voltarHome()" style="margin-bottom:15px;">⬅ Voltar</button><h3>Executivo</h3>
-
         <h4>Proteína (1)</h4>
-        <div class="option"><label><input type="radio" name="proteinaE"> Bisteca</label></div>
-        <div class="option"><label><input type="radio" name="proteinaE"> Peixe grelhado</label></div>
-        <div class="option"><label><input type="radio" name="proteinaE"> Paçoca de carne de sol</label></div>
-        <div class="option"><label><input type="radio" name="proteinaE"> Peito de frango</label></div>
-
+        <div id="proteinasEContainer" class="options-container"></div>
         <h4>Acompanhamentos (máx 3)</h4>
-        <div class="option"><label><input type="checkbox" class="acompE"> Arroz branco</label></div>
-        <div class="option"><label><input type="checkbox" class="acompE"> Arroz de leite</label></div>
-        <div class="option"><label><input type="checkbox" class="acompE"> Feijão preto</label></div>
-        <div class="option"><label><input type="checkbox" class="acompE"> Feijão carioca</label></div>
-        <div class="option"><label><input type="checkbox" class="acompE"> Feijão verde com queijo coalho</label></div>
-        <div class="option"><label><input type="checkbox" class="acompE"> Macaxeira cozida</label></div>
-        <div class="option"><label><input type="checkbox" class="acompE"> Macaxeira frita</label></div>
-        <div class="option"><label><input type="checkbox" class="acompE"> Batata frita</label></div>
-
+        <div id="acompEContainer" class="options-container"></div>
         <h4>Extras gratuitos</h4>
-        <div class="option"><label><input type="checkbox" class="extraE"> Farofa (grátis)</label></div>
-        <div class="option"><label><input type="checkbox" class="extraE"> Vinagrete (grátis)</label></div>
-
+        <div id="extrasEContainer" class="options-container"></div>
         <button class="btn-add" onclick="adicionarExecutivo()">Adicionar ao Carrinho</button>
     </div>
 </div>
@@ -343,24 +361,14 @@ button{
 <div id="bebidas" class="section">
     <div class="card">
         <button onclick="voltarHome()" style="margin-bottom:15px;">⬅ Voltar</button><h3>🥤 Bebidas</h3>
-
         <h4>Coca-cola</h4>
-        <div class="option"><label><input type="checkbox" class="bebidaB" data-preco="15"> Coca-cola 1L – R$ 15</label></div>
-        <div class="option"><label><input type="checkbox" class="bebidaB" data-preco="15"> Coca-cola Zero 1L – R$ 15</label></div>
-        <div class="option"><label><input type="checkbox" class="bebidaB" data-preco="8"> Coca-cola lata – R$ 8</label></div>
-        <div class="option"><label><input type="checkbox" class="bebidaB" data-preco="8"> Coca-cola Zero lata – R$ 8</label></div>
-
+        <div id="bebidasCocaContainer" class="options-container"></div>
         <h4>Guaraná</h4>
-        <div class="option"><label><input type="checkbox" class="bebidaB" data-preco="15"> Guaraná 1L – R$ 15</label></div>
-        <div class="option"><label><input type="checkbox" class="bebidaB" data-preco="15"> Guaraná Zero 1L – R$ 15</label></div>
-        <div class="option"><label><input type="checkbox" class="bebidaB" data-preco="8"> Guaraná lata – R$ 8</label></div>
-        <div class="option"><label><input type="checkbox" class="bebidaB" data-preco="8"> Guaraná Zero lata – R$ 8</label></div>
-
+        <div id="bebidasGuaranaContainer" class="options-container"></div>
         <button class="btn-add" onclick="adicionarBebidas()">Adicionar ao Carrinho</button>
     </div>
 </div>
 
-<!-- Seção do Carrinho -->
 <div id="carrinho" class="section">
     <div class="card">
         <button onclick="voltarHome()" style="margin-bottom:15px;">⬅ Voltar ao Cardápio</button>
@@ -372,111 +380,439 @@ button{
 </div>
 
 <div class="footer">
-    <button class="primary" onclick="mostrar('carrinho'); renderizarCarrinho();" id="btnCarrinho">
-        🛒 Carrinho <span class="badge" id="badgeCount">0</span>
-    </button>
-    <button class="secondary" onclick="finalizarPedido()" id="btnFinalizar" style="display:none;">
-        Enviar Pedido
-    </button>
+    <div class="footer-left">
+        <button class="primary" onclick="mostrar('carrinho'); renderizarCarrinho();" id="btnCarrinho">
+            🛒 <span class="badge" id="badgeCount">0</span>
+        </button>
+        <button class="secondary" onclick="finalizarPedido()" id="btnFinalizar" style="display:none;">
+            Enviar
+        </button>
+    </div>
+    <button class="btn-admin-footer" onclick="abrirLoginAdmin()" title="Admin">⚙️</button>
 </div>
 
-<!-- POPUP COM DADOS DO CLIENTE -->
-<div class="popup" id="popup">
+<!-- POPUP LOGIN ADMIN -->
+<div class="popup" id="popupLogin">
+    <div class="popup-content">
+        <h3>Acesso Administrativo</h3>
+        <label>Senha</label>
+        <input type="password" id="senhaAdmin" placeholder="Digite a senha">
+        <button class="primary" onclick="fazerLoginAdmin()">Entrar</button>
+        <button onclick="fecharPopup('popupLogin')" style="margin-top:8px;">Cancelar</button>
+    </div>
+</div>
+
+<!-- POPUP PAINEL ADMIN -->
+<div class="popup" id="popupAdmin">
+    <div class="popup-content">
+        <h3>⚙️ Gerenciar Cardápio</h3>
+        <div class="admin-tabs">
+            <button class="tab-btn active" onclick="mostrarAbaAdmin('protQ')">Prot. Q</button>
+            <button class="tab-btn" onclick="mostrarAbaAdmin('acompQ')">Acomp. Q</button>
+            <button class="tab-btn" onclick="mostrarAbaAdmin('extraQ')">Extras Q</button>
+            <button class="tab-btn" onclick="mostrarAbaAdmin('protE')">Prot. E</button>
+            <button class="tab-btn" onclick="mostrarAbaAdmin('acompE')">Acomp. E</button>
+            <button class="tab-btn" onclick="mostrarAbaAdmin('extraE')">Extras E</button>
+            <button class="tab-btn" onclick="mostrarAbaAdmin('bebidas')">Bebidas</button>
+        </div>
+        <div id="adminProtQ" class="admin-category active">
+            <h4>Proteínas (Quentinha)</h4>
+            <div id="listaProtQ"></div>
+            <div class="add-form">
+                <input type="text" id="novaProtQ" placeholder="Nome da proteína">
+                <button onclick="adicionarItem('protQ')">Adicionar</button>
+            </div>
+        </div>
+        <div id="adminAcompQ" class="admin-category">
+            <h4>Acompanhamentos (Quentinha)</h4>
+            <div id="listaAcompQ"></div>
+            <div class="add-form">
+                <input type="text" id="novoAcompQ" placeholder="Nome do acompanhamento">
+                <button onclick="adicionarItem('acompQ')">Adicionar</button>
+            </div>
+        </div>
+        <div id="adminExtraQ" class="admin-category">
+            <h4>Extras (Quentinha)</h4>
+            <div id="listaExtraQ"></div>
+            <div class="add-form">
+                <input type="text" id="novoExtraQ" placeholder="Nome do extra">
+                <button onclick="adicionarItem('extraQ')">Adicionar</button>
+            </div>
+        </div>
+        <div id="adminProtE" class="admin-category">
+            <h4>Proteínas (Executivo)</h4>
+            <div id="listaProtE"></div>
+            <div class="add-form">
+                <input type="text" id="novaProtE" placeholder="Nome da proteína">
+                <button onclick="adicionarItem('protE')">Adicionar</button>
+            </div>
+        </div>
+        <div id="adminAcompE" class="admin-category">
+            <h4>Acompanhamentos (Executivo)</h4>
+            <div id="listaAcompE"></div>
+            <div class="add-form">
+                <input type="text" id="novoAcompE" placeholder="Nome do acompanhamento">
+                <button onclick="adicionarItem('acompE')">Adicionar</button>
+            </div>
+        </div>
+        <div id="adminExtraE" class="admin-category">
+            <h4>Extras (Executivo)</h4>
+            <div id="listaExtraE"></div>
+            <div class="add-form">
+                <input type="text" id="novoExtraE" placeholder="Nome do extra">
+                <button onclick="adicionarItem('extraE')">Adicionar</button>
+            </div>
+        </div>
+        <div id="adminBebidas" class="admin-category">
+            <h4>Bebidas</h4>
+            <div id="listaBebidas"></div>
+            <div class="add-form" style="flex-wrap:wrap;">
+                <input type="text" id="novaBebidaNome" placeholder="Nome (ex: Coca 1L)">
+                <input type="number" id="novaBebidaPreco" placeholder="Preço" step="1" min="0" style="width:80px;">
+                <select id="novaBebidaCat">
+                    <option value="coca">Coca-cola</option>
+                    <option value="guarana">Guaraná</option>
+                </select>
+                <button onclick="adicionarBebidaAdmin()">Adicionar</button>
+            </div>
+        </div>
+        <button onclick="fecharPopup('popupAdmin')" style="margin-top:15px;">Fechar</button>
+    </div>
+</div>
+
+<!-- POPUP FINALIZAR PEDIDO -->
+<div class="popup" id="popupFinalizar">
     <div class="popup-content">
         <h3>Finalizar Pedido</h3>
-        
         <label>Nome completo</label>
         <input type="text" id="nomeCliente" placeholder="Digite seu nome" required>
-
         <label>Endereço de entrega</label>
         <textarea id="enderecoCliente" placeholder="Rua, número, complemento, bairro" rows="2" required></textarea>
-
         <label>Forma de pagamento</label>
         <div class="radio-group">
             <label><input type="radio" name="pagamento" value="PIX" checked> PIX</label>
             <label><input type="radio" name="pagamento" value="Cartão"> Cartão</label>
         </div>
-
         <label>Resumo do pedido</label>
         <textarea id="resumoPedido" readonly style="height:120px;"></textarea>
-
         <button class="primary" onclick="enviarWhatsApp()">Enviar pelo WhatsApp</button>
-        <button onclick="fecharPopup()" style="margin-top:8px;">Fechar</button>
+        <button onclick="fecharPopup('popupFinalizar')" style="margin-top:8px;">Fechar</button>
     </div>
 </div>
 
-<script>
+<!-- Firebase SDK (adicione antes do seu script) -->
+<script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore-compat.js"></script>
 
+<script>
+// ==================== CONFIGURAÇÃO DO FIREBASE ====================
+// Substitua pelos dados do seu projeto Firebase
+const firebaseConfig = {
+  apiKey: "AIzaSy...",
+  authDomain: "seu-projeto.firebaseapp.com",
+  projectId: "seu-projeto",
+  storageBucket: "seu-projeto.appspot.com",
+  messagingSenderId: "123456789",
+  appId: "1:123456789:web:abc123"
+};
+
+// Inicializar Firebase
+firebase.initializeApp(firebaseConfig);
+const db = firebase.firestore();
+
+// ==================== DADOS DO CARDÁPIO ====================
+let cardapio = {
+    proteinasQ: [],
+    acompQ: [],
+    extrasQ: [],
+    proteinasE: [],
+    acompE: [],
+    extrasE: [],
+    bebidas: []
+};
+
+// Carregar cardápio do Firestore
+async function carregarCardapio() {
+    try {
+        const docRef = db.collection("config").doc("cardapio");
+        const doc = await docRef.get();
+        if (doc.exists) {
+            cardapio = doc.data();
+        } else {
+            // Se não existir, criar com dados padrão
+            cardapio = {
+                proteinasQ: ["Bisteca", "Peito de frango", "Linguiça de frango"],
+                acompQ: ["Arroz", "Feijão preto", "Feijão marrom", "Macarrão alho e óleo", "Macaxeira cozida", "Legumes cozidos"],
+                extrasQ: ["Farofa", "Vinagrete"],
+                proteinasE: ["Bisteca", "Peixe grelhado", "Paçoca de carne de sol", "Peito de frango"],
+                acompE: ["Arroz branco", "Arroz de leite", "Feijão preto", "Feijão carioca", "Feijão verde com queijo coalho", "Macaxeira cozida", "Macaxeira frita", "Batata frita"],
+                extrasE: ["Farofa", "Vinagrete"],
+                bebidas: [
+                    { nome: "Coca-cola 1L – R$ 15", preco: 15, cat: "coca" },
+                    { nome: "Coca-cola Zero 1L – R$ 15", preco: 15, cat: "coca" },
+                    { nome: "Coca-cola lata – R$ 8", preco: 8, cat: "coca" },
+                    { nome: "Coca-cola Zero lata – R$ 8", preco: 8, cat: "coca" },
+                    { nome: "Guaraná 1L – R$ 15", preco: 15, cat: "guarana" },
+                    { nome: "Guaraná Zero 1L – R$ 15", preco: 15, cat: "guarana" },
+                    { nome: "Guaraná lata – R$ 8", preco: 8, cat: "guarana" },
+                    { nome: "Guaraná Zero lata – R$ 8", preco: 8, cat: "guarana" }
+                ]
+            };
+            await docRef.set(cardapio);
+        }
+        renderizarTodasCategorias();
+    } catch (error) {
+        console.error("Erro ao carregar cardápio: ", error);
+    }
+}
+
+// Salvar cardápio no Firestore
+async function salvarCardapio() {
+    try {
+        await db.collection("config").doc("cardapio").set(cardapio);
+        renderizarTodasCategorias();
+    } catch (error) {
+        console.error("Erro ao salvar cardápio: ", error);
+    }
+}
+
+// ==================== RENDERIZAÇÃO ====================
+function renderizarTodasCategorias() {
+    renderizarOpcoes("proteinasQContainer", cardapio.proteinasQ, "checkbox", "proteinaQ");
+    renderizarOpcoes("acompQContainer", cardapio.acompQ, "checkbox", "acompQ");
+    renderizarOpcoes("extrasQContainer", cardapio.extrasQ, "checkbox", "extraQ");
+    renderizarOpcoes("proteinasEContainer", cardapio.proteinasE, "radio", "proteinaE", "proteinaE");
+    renderizarOpcoes("acompEContainer", cardapio.acompE, "checkbox", "acompE");
+    renderizarOpcoes("extrasEContainer", cardapio.extrasE, "checkbox", "extraE");
+    let coca = cardapio.bebidas.filter(b => b.cat === "coca");
+    let guarana = cardapio.bebidas.filter(b => b.cat === "guarana");
+    renderizarBebidas("bebidasCocaContainer", coca);
+    renderizarBebidas("bebidasGuaranaContainer", guarana);
+    aplicarLimites();
+}
+
+function renderizarOpcoes(containerId, itens, tipo, classeName, nameGroup = null) {
+    let container = document.getElementById(containerId);
+    if (!container) return;
+    let html = '';
+    itens.forEach(item => {
+        let nome = typeof item === 'string' ? item : item.nome;
+        if (tipo === 'radio') {
+            html += `<div class="option"><label><input type="radio" name="${nameGroup}" class="${classeName}" value="${nome}"> ${nome}</label></div>`;
+        } else {
+            html += `<div class="option"><label><input type="checkbox" class="${classeName}" value="${nome}"> ${nome}</label></div>`;
+        }
+    });
+    container.innerHTML = html;
+}
+
+function renderizarBebidas(containerId, bebidas) {
+    let container = document.getElementById(containerId);
+    if (!container) return;
+    let html = '';
+    bebidas.forEach(b => {
+        html += `<div class="option"><label><input type="checkbox" class="bebidaB" data-preco="${b.preco}" value="${b.nome}"> ${b.nome}</label></div>`;
+    });
+    container.innerHTML = html;
+}
+
+function aplicarLimites() {
+    document.querySelectorAll(".proteinaQ").forEach(box => {
+        box.addEventListener("change", function() {
+            let max = tipoAtual === "P" ? 1 : 2;
+            if (document.querySelectorAll(".proteinaQ:checked").length > max) {
+                alert("Máximo permitido: " + max + " proteína(s).");
+                this.checked = false;
+            }
+        });
+    });
+    document.querySelectorAll(".acompQ").forEach(box => {
+        box.addEventListener("change", function() {
+            if (document.querySelectorAll(".acompQ:checked").length > 4) {
+                alert("Máximo 4 acompanhamentos");
+                this.checked = false;
+            }
+        });
+    });
+    document.querySelectorAll(".acompE").forEach(box => {
+        box.addEventListener("change", function() {
+            if (document.querySelectorAll(".acompE:checked").length > 3) {
+                alert("Máximo 3 acompanhamentos");
+                this.checked = false;
+            }
+        });
+    });
+}
+
+// ==================== ADMIN ====================
+let senhaAdmin = "bodegadaterra";
+
+function abrirLoginAdmin() {
+    document.getElementById("popupLogin").style.display = "flex";
+}
+
+function fazerLoginAdmin() {
+    let senha = document.getElementById("senhaAdmin").value;
+    if (senha === senhaAdmin) {
+        fecharPopup("popupLogin");
+        abrirPainelAdmin();
+    } else {
+        alert("Senha incorreta!");
+    }
+}
+
+function abrirPainelAdmin() {
+    atualizarListasAdmin();
+    document.getElementById("popupAdmin").style.display = "flex";
+}
+
+function mostrarAbaAdmin(aba) {
+    document.querySelectorAll('.admin-category').forEach(el => el.classList.remove('active'));
+    document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+    document.getElementById('admin' + aba.charAt(0).toUpperCase() + aba.slice(1)).classList.add('active');
+    event.target.classList.add('active');
+}
+
+function atualizarListasAdmin() {
+    let html = '';
+    cardapio.proteinasQ.forEach((item, idx) => {
+        html += `<div class="admin-item"><span>${item}</span><button onclick="removerItemAdmin('protQ', ${idx})">Remover</button></div>`;
+    });
+    document.getElementById('listaProtQ').innerHTML = html;
+
+    html = '';
+    cardapio.acompQ.forEach((item, idx) => {
+        html += `<div class="admin-item"><span>${item}</span><button onclick="removerItemAdmin('acompQ', ${idx})">Remover</button></div>`;
+    });
+    document.getElementById('listaAcompQ').innerHTML = html;
+
+    html = '';
+    cardapio.extrasQ.forEach((item, idx) => {
+        html += `<div class="admin-item"><span>${item}</span><button onclick="removerItemAdmin('extraQ', ${idx})">Remover</button></div>`;
+    });
+    document.getElementById('listaExtraQ').innerHTML = html;
+
+    html = '';
+    cardapio.proteinasE.forEach((item, idx) => {
+        html += `<div class="admin-item"><span>${item}</span><button onclick="removerItemAdmin('protE', ${idx})">Remover</button></div>`;
+    });
+    document.getElementById('listaProtE').innerHTML = html;
+
+    html = '';
+    cardapio.acompE.forEach((item, idx) => {
+        html += `<div class="admin-item"><span>${item}</span><button onclick="removerItemAdmin('acompE', ${idx})">Remover</button></div>`;
+    });
+    document.getElementById('listaAcompE').innerHTML = html;
+
+    html = '';
+    cardapio.extrasE.forEach((item, idx) => {
+        html += `<div class="admin-item"><span>${item}</span><button onclick="removerItemAdmin('extraE', ${idx})">Remover</button></div>`;
+    });
+    document.getElementById('listaExtraE').innerHTML = html;
+
+    html = '';
+    cardapio.bebidas.forEach((item, idx) => {
+        html += `<div class="admin-item"><span>${item.nome} (R$ ${item.preco})</span><button onclick="removerItemAdmin('bebidas', ${idx})">Remover</button></div>`;
+    });
+    document.getElementById('listaBebidas').innerHTML = html;
+}
+
+function adicionarItem(categoria) {
+    let inputId = {
+        protQ: 'novaProtQ',
+        acompQ: 'novoAcompQ',
+        extraQ: 'novoExtraQ',
+        protE: 'novaProtE',
+        acompE: 'novoAcompE',
+        extraE: 'novoExtraE'
+    }[categoria];
+    let valor = document.getElementById(inputId).value.trim();
+    if (!valor) return alert("Digite um nome.");
+
+    if (categoria.startsWith('prot') || categoria.startsWith('acomp') || categoria.startsWith('extra')) {
+        let chave = {
+            protQ: 'proteinasQ',
+            acompQ: 'acompQ',
+            extraQ: 'extrasQ',
+            protE: 'proteinasE',
+            acompE: 'acompE',
+            extraE: 'extrasE'
+        }[categoria];
+        cardapio[chave].push(valor);
+    }
+    salvarCardapio(); // Salva no Firebase
+    document.getElementById(inputId).value = '';
+    atualizarListasAdmin();
+}
+
+function adicionarBebidaAdmin() {
+    let nome = document.getElementById('novaBebidaNome').value.trim();
+    let preco = parseInt(document.getElementById('novaBebidaPreco').value);
+    let cat = document.getElementById('novaBebidaCat').value;
+    if (!nome || isNaN(preco) || preco <= 0) return alert("Preencha nome e preço válido.");
+    cardapio.bebidas.push({ nome, preco, cat });
+    salvarCardapio();
+    document.getElementById('novaBebidaNome').value = '';
+    document.getElementById('novaBebidaPreco').value = '';
+    atualizarListasAdmin();
+}
+
+function removerItemAdmin(categoria, index) {
+    if (categoria === 'bebidas') {
+        cardapio.bebidas.splice(index, 1);
+    } else {
+        let chave = {
+            protQ: 'proteinasQ',
+            acompQ: 'acompQ',
+            extraQ: 'extrasQ',
+            protE: 'proteinasE',
+            acompE: 'acompE',
+            extraE: 'extrasE'
+        }[categoria];
+        cardapio[chave].splice(index, 1);
+    }
+    salvarCardapio();
+    atualizarListasAdmin();
+}
+
+// ==================== FUNÇÕES DO CARRINHO E PEDIDO ====================
 let tipoAtual = "";
 let carrinho = [];
 
-function mostrar(id){
-    document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
+function mostrar(id) {
+    document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
     document.getElementById(id).classList.add('active');
 }
 
-function voltarHome(){
+function voltarHome() {
     mostrar('home');
 }
 
-function abrirQuentinha(tipo){
+function abrirQuentinha(tipo) {
     tipoAtual = tipo;
     limparSelecaoQuentinha();
     mostrar('quentinha');
-    document.getElementById("tituloQ").innerText =
-    tipo==="P" ? "Quentinha P – R$20" : "Quentinha G – R$25";
+    document.getElementById("tituloQ").innerText = tipo === "P" ? "Quentinha P – R$20" : "Quentinha G – R$25";
 }
 
-/* Limpar seleções ao abrir formulário */
-function limparSelecaoQuentinha(){
+function limparSelecaoQuentinha() {
     document.querySelectorAll(".proteinaQ").forEach(c => c.checked = false);
     document.querySelectorAll(".acompQ").forEach(c => c.checked = false);
     document.querySelectorAll(".extraQ").forEach(c => c.checked = false);
 }
 
-function limparSelecaoExecutivo(){
+function limparSelecaoExecutivo() {
     document.querySelectorAll("input[name='proteinaE']").forEach(c => c.checked = false);
     document.querySelectorAll(".acompE").forEach(c => c.checked = false);
     document.querySelectorAll(".extraE").forEach(c => c.checked = false);
 }
 
-/* LIMITES */
+function adicionarQuentinha() {
+    let proteinas = [...document.querySelectorAll(".proteinaQ:checked")].map(p => p.value);
+    let acomp = [...document.querySelectorAll(".acompQ:checked")].map(a => a.value);
+    let extras = [...document.querySelectorAll(".extraQ:checked")].map(e => e.value);
 
-document.querySelectorAll(".proteinaQ").forEach(box=>{
-    box.addEventListener("change",function(){
-        let max = tipoAtual==="P" ? 1 : 2;
-        if(document.querySelectorAll(".proteinaQ:checked").length>max){
-            alert("Máximo permitido: " + max + " proteína(s).");
-            this.checked=false;
-        }
-    });
-});
-
-document.querySelectorAll(".acompQ").forEach(box=>{
-    box.addEventListener("change",function(){
-        if(document.querySelectorAll(".acompQ:checked").length>4){
-            alert("Máximo 4 acompanhamentos");
-            this.checked=false;
-        }
-    });
-});
-
-document.querySelectorAll(".acompE").forEach(box=>{
-    box.addEventListener("change",function(){
-        if(document.querySelectorAll(".acompE:checked").length>3){
-            alert("Máximo 3 acompanhamentos");
-            this.checked=false;
-        }
-    });
-});
-
-/* CARRINHO - Adicionar Quentinha */
-function adicionarQuentinha(){
-    let proteinas = [...document.querySelectorAll(".proteinaQ:checked")].map(p=>p.parentElement.innerText.trim());
-    let acomp = [...document.querySelectorAll(".acompQ:checked")].map(a=>a.parentElement.innerText.trim());
-    let extras = [...document.querySelectorAll(".extraQ:checked")].map(e=>e.parentElement.innerText.replace(" (grátis)","").trim());
-
-    if(proteinas.length === 0){
+    if (proteinas.length === 0) {
         alert("Selecione pelo menos 1 proteína.");
         return;
     }
@@ -498,13 +834,12 @@ function adicionarQuentinha(){
     voltarHome();
 }
 
-/* CARRINHO - Adicionar Executivo */
-function adicionarExecutivo(){
+function adicionarExecutivo() {
     let prot = document.querySelector("input[name='proteinaE']:checked");
-    let acomp = [...document.querySelectorAll(".acompE:checked")].map(a=>a.parentElement.innerText.trim());
-    let extras = [...document.querySelectorAll(".extraE:checked")].map(e=>e.parentElement.innerText.replace(" (grátis)","").trim());
+    let acomp = [...document.querySelectorAll(".acompE:checked")].map(a => a.value);
+    let extras = [...document.querySelectorAll(".extraE:checked")].map(e => e.value);
 
-    if(!prot){
+    if (!prot) {
         alert("Selecione 1 proteína.");
         return;
     }
@@ -512,7 +847,7 @@ function adicionarExecutivo(){
     carrinho.push({
         tipo: "Executivo",
         preco: 30,
-        proteinas: [prot.parentElement.innerText.trim()],
+        proteinas: [prot.value],
         acompanhamentos: acomp,
         extras: extras
     });
@@ -523,31 +858,30 @@ function adicionarExecutivo(){
     voltarHome();
 }
 
-/* Bebidas */
-function abrirBebidas(){
+function abrirBebidas() {
     limparSelecaoBebidas();
     mostrar('bebidas');
 }
 
-function limparSelecaoBebidas(){
+function limparSelecaoBebidas() {
     document.querySelectorAll(".bebidaB").forEach(c => c.checked = false);
 }
 
-function adicionarBebidas(){
+function adicionarBebidas() {
     let selecionadas = [...document.querySelectorAll(".bebidaB:checked")];
 
-    if(selecionadas.length === 0){
+    if (selecionadas.length === 0) {
         alert("Selecione pelo menos 1 bebida.");
         return;
     }
 
-    let itens = selecionadas.map(function(cb){
-        let nome = cb.parentElement.innerText.trim();
+    let itens = selecionadas.map(function(cb) {
+        let nome = cb.value;
         let preco = parseInt(cb.getAttribute("data-preco"));
-        return {nome: nome, preco: preco};
+        return { nome: nome, preco: preco };
     });
 
-    let totalBebidas = itens.reduce(function(soma, b){ return soma + b.preco; }, 0);
+    let totalBebidas = itens.reduce(function(soma, b) { return soma + b.preco; }, 0);
 
     carrinho.push({
         tipo: "Bebidas",
@@ -564,95 +898,102 @@ function adicionarBebidas(){
     voltarHome();
 }
 
-/* Atualizar badge e botão */
-function atualizarBadge(){
+function atualizarBadge() {
     let count = carrinho.length;
     document.getElementById("badgeCount").innerText = count;
     document.getElementById("btnFinalizar").style.display = count > 0 ? "block" : "none";
 }
 
-/* Renderizar lista do carrinho */
-function renderizarCarrinho(){
+function renderizarCarrinho() {
     let container = document.getElementById("listaCarrinho");
 
-    if(carrinho.length === 0){
+    if (carrinho.length === 0) {
         container.innerHTML = '<div class="cart-empty">Seu carrinho está vazio.<br>Adicione marmitas do cardápio!</div>';
         return;
     }
 
     let html = '';
 
-    carrinho.forEach(function(item, index){
+    carrinho.forEach(function(item, index) {
         let detalhes = '';
-        if(item.tipo === "Bebidas"){
-            detalhes = item.itens.map(function(b){ return b.nome; }).join(', ');
+        if (item.tipo === "Bebidas") {
+            detalhes = item.itens.map(function(b) { return b.nome; }).join(', ');
         } else {
-            if(item.proteinas.length > 0) detalhes += 'Proteína(s): ' + item.proteinas.join(', ');
-            if(item.acompanhamentos.length > 0) detalhes += '<br>Acomp.: ' + item.acompanhamentos.join(', ');
-            if(item.extras.length > 0) detalhes += '<br>Extras: ' + item.extras.join(', ');
+            if (item.proteinas.length > 0) detalhes += 'Proteína(s): ' + item.proteinas.join(', ');
+            if (item.acompanhamentos.length > 0) detalhes += '<br>Acomp.: ' + item.acompanhamentos.join(', ');
+            if (item.extras.length > 0) detalhes += '<br>Extras: ' + item.extras.join(', ');
         }
 
         let emoji = item.tipo === "Bebidas" ? "🥤" : (item.tipo === "Executivo" ? "🍽️" : "🍱");
 
         html += '<div class="cart-item">' +
             '<div class="cart-item-info">' +
-                '<h4>' + emoji + ' ' + item.tipo + '</h4>' +
-                '<p>' + detalhes + '</p>' +
+            '<h4>' + emoji + ' ' + item.tipo + '</h4>' +
+            '<p>' + detalhes + '</p>' +
             '</div>' +
             '<span class="cart-item-price">R$ ' + item.preco + '</span>' +
             '<button class="btn-remove" onclick="removerItem(' + index + ')" title="Remover">&times;</button>' +
-        '</div>';
+            '</div>';
     });
 
-    let total = carrinho.reduce(function(soma, item){ return soma + item.preco; }, 0);
+    let total = carrinho.reduce(function(soma, item) { return soma + item.preco; }, 0);
 
     html += '<div class="cart-total">' +
         '<span>Total</span>' +
         '<span>R$ ' + total + '</span>' +
-    '</div>';
+        '</div>';
 
     html += '<div class="btn-row">' +
         '<button class="btn-clear" onclick="limparCarrinho()">Limpar Carrinho</button>' +
         '<button class="secondary" onclick="finalizarPedido()">Enviar Pedido</button>' +
-    '</div>';
+        '</div>';
 
     container.innerHTML = html;
 }
 
-/* Remover item do carrinho */
-function removerItem(index){
+function removerItem(index) {
     carrinho.splice(index, 1);
     atualizarBadge();
     renderizarCarrinho();
 }
 
-/* Limpar carrinho */
-function limparCarrinho(){
-    if(confirm("Deseja limpar todo o carrinho?")){
+function limparCarrinho() {
+    if (confirm("Deseja limpar todo o carrinho?")) {
         carrinho = [];
         atualizarBadge();
         renderizarCarrinho();
     }
 }
 
-/* GERAR PEDIDO (apenas itens, sem cabeçalho) */
-function gerarTextoPedido(){
+function finalizarPedido() {
+    if (carrinho.length === 0) {
+        alert("Seu carrinho está vazio! Adicione marmitas antes de finalizar.");
+        return;
+    }
+
+    document.getElementById("nomeCliente").value = "";
+    document.getElementById("enderecoCliente").value = "";
+    document.getElementById("resumoPedido").value = gerarTextoPedido();
+    document.getElementById("popupFinalizar").style.display = "flex";
+}
+
+function gerarTextoPedido() {
     let texto = "";
     let total = 0;
 
-    carrinho.forEach(function(item, index){
+    carrinho.forEach(function(item) {
         let emoji = item.tipo === "Bebidas" ? "🥤" : (item.tipo === "Executivo" ? "🍽️" : "🍱");
         texto += emoji + " *" + item.tipo + "* (R$ " + item.preco + ")\n";
-        if(item.tipo === "Bebidas"){
-            item.itens.forEach(function(b){
+        if (item.tipo === "Bebidas") {
+            item.itens.forEach(function(b) {
                 texto += "  - " + b.nome + "\n";
             });
         } else {
             texto += "Proteína(s): " + item.proteinas.join(", ") + "\n";
-            if(item.acompanhamentos.length > 0){
+            if (item.acompanhamentos.length > 0) {
                 texto += "Acompanhamentos: " + item.acompanhamentos.join(", ") + "\n";
             }
-            if(item.extras.length > 0){
+            if (item.extras.length > 0) {
                 texto += "Extras gratuitos: " + item.extras.join(", ") + "\n";
             }
         }
@@ -662,41 +1003,20 @@ function gerarTextoPedido(){
 
     texto += "💰 *Total: R$ " + total + "*\n";
     texto += "📦 *Itens: " + carrinho.length + " item(ns)*";
-
     return texto;
 }
 
-/* Abrir popup de finalização com resumo do pedido */
-function finalizarPedido(){
-    if(carrinho.length === 0){
-        alert("Seu carrinho está vazio! Adicione marmitas antes de finalizar.");
-        return;
-    }
-
-    // Limpar campos do cliente
-    document.getElementById("nomeCliente").value = "";
-    document.getElementById("enderecoCliente").value = "";
-    // O radio PIX já fica marcado por padrão
-
-    // Preencher resumo do pedido
-    document.getElementById("resumoPedido").value = gerarTextoPedido();
-
-    // Exibir popup
-    document.getElementById("popup").style.display = "flex";
-}
-
-/* Enviar WhatsApp com dados do cliente + pedido */
-function enviarWhatsApp(){
+function enviarWhatsApp() {
     let nome = document.getElementById("nomeCliente").value.trim();
     let endereco = document.getElementById("enderecoCliente").value.trim();
     let pagamento = document.querySelector("input[name='pagamento']:checked").value;
 
-    if(!nome || !endereco){
+    if (!nome || !endereco) {
         alert("Por favor, preencha seu nome e endereço.");
         return;
     }
 
-    let textoPedido = document.getElementById("resumoPedido").value; // já vem sem cabeçalho
+    let textoPedido = document.getElementById("resumoPedido").value;
 
     let textoCompleto = `🍽️ *Pedido - Bodega da Terra*\n\n`;
     textoCompleto += `*Cliente:* ${nome}\n`;
@@ -704,16 +1024,17 @@ function enviarWhatsApp(){
     textoCompleto += `*Pagamento:* ${pagamento}\n\n`;
     textoCompleto += textoPedido;
 
-    let numero = "5584994587752";
+    let numero = "5584994587752"; // SEU NÚMERO AQUI
     let url = "https://wa.me/" + numero + "?text=" + encodeURIComponent(textoCompleto);
     window.location.href = url;
 }
 
-function fecharPopup(){
-    document.getElementById("popup").style.display = "none";
+function fecharPopup(id) {
+    document.getElementById(id).style.display = "none";
 }
 
+// Inicialização
+carregarCardapio();
 </script>
-
 </body>
 </html>
